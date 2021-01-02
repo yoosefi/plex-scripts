@@ -1,28 +1,32 @@
 #!/bin/bash
 
-if [ -f .plexignore ]; then
+[ -f .plexignore ] || exit
 
-    # convert args to patterns
-    a=("$@")
-    for i in "${!a[@]}"; do
-        if [ -d "${a[$i]}" ]; then
-            a[$i]="${a[$i]}/*";
+# convert args to patterns
+a=("$@")
+for i in "${!a[@]}"; do
+    if [ -d "${a[$i]}" ]; then
+        a[$i]="${a[$i]}/*";
+    fi
+done
+
+# build a new .plexignore
+rm -f .plexignore~
+while read ignored; do
+    for x in "${a[@]}"; do
+        if [[ "${x}" == "${ignored}" ]]; then
+            # omit from the new .plexignore
+            continue 2;
         fi
     done
-    
-    # build a new plexignore
-    rm -f ~plexignore
-    while read ignored; do
-        for x in "${a[@]}"; do
-            if [[ "${x}" == "${ignored}" ]]; then
-                continue 2;
-            fi
-        done
-        echo "${ignored}" >> ~plexignore
-    done < .plexignore
+    echo "${ignored}" >> .plexignore~
+done < .plexignore
 
-    if [ -f ~plexignore ]; then
-        mv ~plexignore .plexignore;
-    fi
+if [ -f .plexignore~ ]; then
+    # some remain
+    mv .plexignore~ .plexignore;
+else
+    # nothing remains
+    rm .plexignore
 fi
 
