@@ -11,7 +11,7 @@ Your video files will not be renamed, moved, or modified in any way by these scr
 
 - `map-process`: From the show's main directory, reads `plex.tsv` and creates symlinks in a reserved directory named `~plex`
 
-    Also updates the `.plexignore` tree.
+    Also updates the `.plexignore` tree and **sorts** `plex.tsv`, so if you have it open make sure to reload it.
 
 - `ignore`: adds selected files/directories to the `.plexignore` tree.
 
