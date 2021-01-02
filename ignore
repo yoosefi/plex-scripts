@@ -1,8 +1,4 @@
 #!/bin/bash
-# 2020.12.29
-# nemo script
-
-# tells plex to ignore the selected files and/or directories
 
 for x in "${@}"; do
     if [ -f "${x}" ]; then

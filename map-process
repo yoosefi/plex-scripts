@@ -1,18 +1,4 @@
 #!/bin/bash
-# 2020.12.31
-# nemo script
-
-# Reads plex.tsv, manages .plexignore, and generates symlinks.
-# Your video files will not be renamed, moved, or modified in any way by this script.
-
-## How do I use this?
-#
-# **You should already have plex.tsv prepared before using this.**
-#
-# While inside the show root, right-click anywhere and run this.
-# Switch over to Plex and watch the magic unfold.
-#
-###################################
 
 # tidy
 sort -k1n -k2n -o plex.tsv plex.tsv
@@ -25,13 +11,6 @@ while IFS=$'\t' read -r -a row; do
     target="${row[2]:-${row[1]:-${row[0]}}}"
 
     # the target has to be ignored in the dir where it lives, not from a parent dir.
-    # the logic behind this is hairy but it boils down to:
-    # scenario: organizing specials in a "src" dir
-    # "src/*" >> ./.plexignore              assume src is ignored (e.g. src = "extras")
-    # ./S00 ~> ./src                        assume S00 is symlinked to src
-    # ./S00/S00E01.mp4 ~> ./S00/pilot.mp4   WORKS, plex sees the pilot
-    # "S00/pilot.mp4" >> ./.plexignore      BREAKS, plex thinks the target should be ignored
-    # "pilot.mp4" >> ./S00/.plexignore      WORKS, also covers the scenario where src is not already ignored
     [ -f "${target}" ] && echo "$(basename "${target}")" >> "$(dirname "${target}")/.plexignore"
 
     # skip symlinking if any fields are blank

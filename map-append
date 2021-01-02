@@ -1,38 +1,4 @@
 #!/bin/bash
-# 2020.12.31
-# nemo script
-#
-# This script will populate a TSV map for your Plex shows.
-# You can edit the TSV and then run the processor script to generate symlinks.
-# Plex will then display episodes in the correct order.
-# Your video files will not be renamed, moved, or modified in any way by this script.
-
-## How do I use this?
-# While inside a show's root directory, select source files and/or subdirectories for mapping,
-# and run this on them from the context menu. This must ONLY be done from the show root.
-#
-# This script is not aware of existing entries in plex.tsv, so be careful not to create duplicate entries.
-#
-# Once you've wired plex.tsv to your liking in your favorite spreadsheet editor, run the processor script on it.
-
-## How should I edit plex.tsv?
-#
-# - The first column is the SEASON designator, and MUST be either:
-#   - An integer (0, 1, 2, 3, ...)
-#   - Blank to have the processor skip symlinking.
-#
-# - The second column is the EPISODE designator, and MUST be either:
-#   - An integer (0, 1, 2, 3, ...)
-#   - Blank to have the processor skip symlinking.
-#   - A Plex-friendly designator that will be prefixed with "E" when symlinking. For example:
-#       - "01-E02" becomes "E01-E02"
-#       - "01a" becomes "E01a"
-#
-# - The third column MUST NOT be changed, it's the video path relative to the show root.
-#   Files in this column are added to the .plexignore tree by the processor,
-#   regardless of whether they get symlinked.
-#
-###########################
 
 for src in "${@}"; do
 

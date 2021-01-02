@@ -1,10 +1,4 @@
 #!/bin/bash
-# 2020.12.31
-# nemo script
-
-# Recursively removes .plexignore and symlinks.
-# Leaves plex.tsv alone.
-# Run this from the show root.
 
 confirm(){ zenity --question --text="${1}" --width="$(( ${#1} * 10 ))"; }
 $(confirm "Clear .plexignore tree?") && find -name .plexignore -exec rm {} \+
