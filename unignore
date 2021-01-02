@@ -1,0 +1,38 @@
+#!/bin/bash
+# 2020.12.31
+# nemo script
+
+# Removes the selected files and/or directories from .plexignore
+
+# When no arguments are given this recursively removes .plexignore starting from the current directory.
+
+if [ $# -eq 0 ]; then
+
+    find -name .plexignore -exec rm {} \+
+
+elif [ -f .plexignore ]; then
+
+    # convert args to patterns
+    a=("$@")
+    for i in "${!a[@]}"; do
+        if [ -d "${a[$i]}" ]; then
+            a[$i]="${a[$i]}/*";
+        fi
+    done
+    
+    # build a new plexignore
+    rm -f ~plexignore
+    while read ignored; do
+        for x in "${a[@]}"; do
+            if [[ "${x}" == "${ignored}" ]]; then
+                continue 2;
+            fi
+        done
+        echo "${ignored}" >> ~plexignore
+    done < .plexignore
+
+    if [ -f ~plexignore ]; then
+        mv ~plexignore .plexignore;
+    fi
+fi
+
