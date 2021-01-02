@@ -33,6 +33,8 @@ Your video files will not be renamed, moved, or modified in any way by these scr
     Files in this column are added to the .plexignore tree by the processor,
     regardless of whether they get symlinked.
 
+- There MUST NOT be any columns after the third.
+
 ## Example plex.tsv
 ```
 		ignore-me.mp4
