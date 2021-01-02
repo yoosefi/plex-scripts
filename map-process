@@ -3,8 +3,11 @@
 # tidy
 sort -k1n -k2n -o plex.tsv plex.tsv
 
-# process rows
+# clear symlinks
 mkdir -p ~plex
+find ~plex -type l -exec rm {} \+
+
+# process rows
 while IFS=$'\t' read -r -a row; do
 
     # coalesce the target in case the season or episode is blank
