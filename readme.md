@@ -9,7 +9,7 @@ Your video files will not be renamed, moved, or modified in any way by these scr
 
     Once you've edited `plex.tsv` to your liking with your favorite spreadsheet program, run the `map-process` script.
 
-- `map-process`: Reads `plex.tsv` in the show's main directory and creates symlinks in a reserved `~plex` directory.
+- `map-process`: Reads `plex.tsv` in the show's main directory and creates symlinks in a reserved directory named `~plex`
 
     Also updates the `.plexignore` tree.
 
