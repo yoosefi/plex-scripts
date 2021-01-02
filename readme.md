@@ -6,9 +6,13 @@ Your video files will not be renamed, moved, or modified in any way by these scr
 
 ## Scripts
 - `map-append`: From the show's main directory, select files and run this to append them to `plex.tsv`
+
     Once you've edited `plex.tsv` to your liking with your favorite spreadsheet program, run the `map-process` script.
+
 - `map-process`: Reads `plex.tsv` in the show's main directory and creates symlinks in `~plex` directory.
+
     Also updates the `.plexignore` tree.
+
 - `ignore`: adds selected files/directories to the `.plexignore` tree.
 - `unignore`: removes selected files/directories from the `.plexignore` tree.
 - `x-reset-x`: From the show's main directory, clears the `.plexignore` tree and `~plex` symlinks (asks for confirmation)
