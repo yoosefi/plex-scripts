@@ -1,4 +1,4 @@
-# Plex Scripts for Nemo
+# Bash/Nemo Scripts for Plex
 
 Helps you organize your files with symlinks so Plex lists them correctly.
 
