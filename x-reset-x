@@ -2,5 +2,5 @@
 
 confirm(){ zenity --question --text="${1}" --width="$(( ${#1} * 10 ))"; }
 $(confirm "Clear .plexignore tree?") && find -name .plexignore -exec rm {} \+
-$(confirm "Clear symlinks?") && find -type l -exec rm {} \+
+$(confirm "Clear symlinks?") && find ~plex -type l -exec rm {} \+
 
