@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[ -f plex.tsv ] || exit
+
 # process rows
 mkdir -p __plex
 while IFS=$'\t' read -r -a row; do
