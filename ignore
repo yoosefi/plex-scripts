@@ -1,12 +1,9 @@
 #!/bin/bash
 
 for x in "${@}"; do
-    if [ -f "${x}" ]; then
-        echo "${x}" >> .plexignore
-    elif [ -d "${x}" ]; then
-        echo "${x}/*" >> .plexignore
-    fi
+    plexignore="$(dirname "${x}")/.plexignore"
+    name="$(basename "${x}")"
+    [ -f "${x}" ] && echo "${name}" >> "${plexignore}"
+    [ -d "${x}" ] && echo "${name}/*" >> "${plexignore}"
+    sort -u -o "${plexignore}" "${plexignore}"
 done
-
-sort -u -o .plexignore .plexignore
-

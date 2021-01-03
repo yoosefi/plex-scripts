@@ -1,32 +1,12 @@
 #!/bin/bash
 
-[ -f .plexignore ] || exit
-
-# convert args to patterns
-a=("$@")
-for i in "${!a[@]}"; do
-    if [ -d "${a[$i]}" ]; then
-        a[$i]="${a[$i]}/*";
-    fi
+for x in "${@}"; do
+    plexignore="$(dirname "${x}")/.plexignore"
+    [ -f "${plexignore}" ] || continue;
+    name="$(basename "${x}")"
+    [ -f "${x}" ] && grep -xv "${name}" "${plexignore}" > "${plexignore}~"
+    [ -d "${x}" ] && grep -xv "${name}/\*" "${plexignore}" > "${plexignore}~"
+    mv "${plexignore}~" "${plexignore}"
+    [ ! -s "${plexignore}" ] && rm "${plexignore}"
 done
-
-# build a new .plexignore
-rm -f .plexignore~
-while read ignored; do
-    for x in "${a[@]}"; do
-        if [[ "${x}" == "${ignored}" ]]; then
-            # omit from the new .plexignore
-            continue 2;
-        fi
-    done
-    echo "${ignored}" >> .plexignore~
-done < .plexignore
-
-if [ -f .plexignore~ ]; then
-    # some remain
-    mv .plexignore~ .plexignore;
-else
-    # nothing remains
-    rm .plexignore
-fi
 
