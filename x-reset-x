@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ -n "${1}" ]; then
+    cd "${1}" || exit
+fi
+
 confirm(){ zenity --question --text="${1}" --width="$(( ${#1} * 10 ))"; }
 $(confirm "Clear .plexignore tree?") && find -name .plexignore -exec rm {} \+
 $(confirm "Clear symlinks?") && find __plex -type l -exec rm {} \+
