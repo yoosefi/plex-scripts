@@ -1,13 +1,7 @@
 #!/bin/bash
 
-# tidy
-sort -k1n -k2n -o plex.tsv plex.tsv
-
-# clear symlinks
-mkdir -p __plex
-find __plex -type l -exec rm {} \+
-
 # process rows
+mkdir -p __plex
 while IFS=$'\t' read -r -a row; do
 
     # coalesce the target in case the season or episode is blank
@@ -25,11 +19,22 @@ while IFS=$'\t' read -r -a row; do
     # expect the episode number to be an integer, but fall back to literal
     episode=$(printf "E%02d" "${row[1]}") || episode="E${row[1]}"
 
-    # symlink with file extension
-    ln -fsr "${target}" "__plex/${season}${episode}.${target##*.}"
+    # symlink using file extension
+    ln -srf "${target}" "__plex/${season}${episode}.${target##*.}"
 
 done < plex.tsv
 
-# tidy
+# prune orphaned symlinks.
+# we have to do it this way instead of simply clearing them all at the start
+# because when plex sees a deletion it will remove them from playlists,
+# even if they're immediately re-linked. we only want plex to see real changes.
+# FIXME this has a race if plex.tsv has the same mtime as invocation. human lag should be enough.
+find __plex -type l -not -newer plex.tsv -exec rm {} \+
+
+# sort plex.tsv
+# this must be done after pruning, because the old mtime is needed for that.
+sort -k1n -k2n -o plex.tsv plex.tsv
+
+# sort .plexignore tree
 find -name .plexignore -exec sort -u -o {} {} \;
 
