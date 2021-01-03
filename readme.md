@@ -9,7 +9,7 @@ Your video files will not be renamed, moved, or modified in any way by these scr
 
     Once you've edited `plex.tsv` to your liking with your favorite spreadsheet program, run the `map-process` script.
 
-- `map-process`: From the show's main directory, reads `plex.tsv` and creates symlinks in a reserved directory named `~plex`
+- `map-process`: From the show's main directory, reads `plex.tsv` and creates symlinks in a reserved directory named `__plex`
 
     Also updates the `.plexignore` tree and **sorts** `plex.tsv`, so if you have it open make sure to reload it.
 
@@ -17,7 +17,7 @@ Your video files will not be renamed, moved, or modified in any way by these scr
 
 - `unignore`: removes selected files/directories from the `.plexignore` tree.
 
-- `x-reset-x`: From the show's main directory, clears the `.plexignore` tree and `~plex` symlinks (asks for confirmation)
+- `x-reset-x`: From the show's main directory, clears the `.plexignore` tree and `__plex` symlinks (asks for confirmation)
 
 ## plex.tsv
 The TSV is a map which defines what gets ignored and symlinked.

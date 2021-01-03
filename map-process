@@ -4,8 +4,8 @@
 sort -k1n -k2n -o plex.tsv plex.tsv
 
 # clear symlinks
-mkdir -p ~plex
-find ~plex -type l -exec rm {} \+
+mkdir -p __plex
+find __plex -type l -exec rm {} \+
 
 # process rows
 while IFS=$'\t' read -r -a row; do
@@ -26,7 +26,7 @@ while IFS=$'\t' read -r -a row; do
     episode=$(printf "E%02d" "${row[1]}") || episode="E${row[1]}"
 
     # symlink with file extension
-    ln -fsr "${target}" "~plex/${season}${episode}.${target##*.}"
+    ln -fsr "${target}" "__plex/${season}${episode}.${target##*.}"
 
 done < plex.tsv
 
