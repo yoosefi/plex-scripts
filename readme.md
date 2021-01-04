@@ -5,12 +5,12 @@ Helps you organize your files via symbolic links so Plex lists them correctly.
 Your video files will not be renamed, moved, or modified in any way by these scripts.
 
 ## Scripts
-- **`map-append`:** From the show's main directory, select files/directories and run this to append videos to `plex.tsv`
+- **`map/append`:** From the show's main directory, select files/directories and run this to append videos to `plex.tsv`
 
     Once you've edited `plex.tsv` to your liking with your favorite spreadsheet program, run the `map-process` script.
 
 
-- **`map-process`:** From the show's main directory, reads `plex.tsv` and creates symlinks in a reserved directory named `__plex`
+- **`map/process`:** From the show's main directory, reads `plex.tsv` and creates symlinks in a reserved directory named `__plex`
 
     Also updates the `.plexignore` tree and **sorts** `plex.tsv`, so if you have it open make sure to reload it.
 
@@ -35,7 +35,7 @@ The TSV is a map which defines what gets ignored and symlinked.
     - An integer (0, 1, 2, 3, ...)
     - Blank to have the processor skip symlinking.
     - A Plex-friendly designator that will be prefixed with "E" when symlinking. For example:
-        - "01-E02" becomes "E01-E02" (the `map-help-condensed` script can help you fill these)
+        - "01-E02" becomes "E01-E02" (the `help/condensed-episodes` script can help you fill these)
         - "01a" becomes "E01a"
 
 - The third column MUST NOT be changed, it's the video path relative to the show root.
