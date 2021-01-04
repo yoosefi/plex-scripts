@@ -4,10 +4,12 @@ Helps you organize your files via symbolic links so Plex lists them correctly.
 
 Your video files will not be renamed, moved, or modified in any way by these scripts.
 
+To install, clone this repo in `~/.local/share/nemo/scripts`
+
 ## Scripts
 - **`map/append`:** From the show's main directory, select files/directories and run this to append videos to `plex.tsv`
 
-    Once you've edited `plex.tsv` to your liking with your favorite spreadsheet program, run the `map-process` script.
+    Once you've edited `plex.tsv` to your liking with your favorite spreadsheet program, run the `map/process` script.
 
 
 - **`map/process`:** From the show's main directory, reads `plex.tsv` and creates symlinks in a reserved directory named `__plex`
