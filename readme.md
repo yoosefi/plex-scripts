@@ -14,11 +14,13 @@ Your video files will not be renamed, moved, or modified in any way by these scr
 
     Also updates the `.plexignore` tree and **sorts** `plex.tsv`, so if you have it open make sure to reload it.
 
-- `map-help-condensed`: Generates ranged `xx-Exx` values for mapping multi-episode files.
+- `help/condensed-episodes`: Generates ranged `xx-Exx` values for mapping multi-episode files.
 
-- `ignore`: adds selected files/directories to the `.plexignore` tree.
+- `mark/*`: Adds emblems to folders.
 
-- `unignore`: removes selected files/directories from the `.plexignore` tree.
+- `ignore`: Adds selected files/directories to the `.plexignore` tree.
+
+- `unignore`: Removes selected files/directories from the `.plexignore` tree.
 
 - `x-reset-x`: From the show's main directory, clears the `.plexignore` tree and `__plex` symlinks (asks for confirmation)
 
