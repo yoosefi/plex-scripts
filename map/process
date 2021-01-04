@@ -1,9 +1,11 @@
 #!/bin/bash
-
 [ -f plex.tsv ] || exit
+source "$(dirname "${0}")/init.sh"
 
-# process rows
+# process rows into ignores and symlinks
 mkdir -p __plex
+addEmblem plex.tsv emblem-synchronizing-symbolic.symbolic
+addEmblem __plex emblem-synchronizing-symbolic.symbolic
 while IFS=$'\t' read -r -a row; do
 
     # coalesce the target in case the season or episode is blank
@@ -39,4 +41,8 @@ sort -k1n -k2n -o plex.tsv plex.tsv
 
 # sort .plexignore tree
 find -name .plexignore -exec sort -u -o {} {} \;
+
+#done
+rmEmblem __plex emblem-synchronizing-symbolic.symbolic
+rmEmblem plex.tsv emblem-synchronizing-symbolic.symbolic
 

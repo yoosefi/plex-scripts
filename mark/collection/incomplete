@@ -1,4 +1,0 @@
-#!/bin/bash
-for x in "${@}"; do
-    [ -d "${x}" ] && gio set -nt stringv "${x}" metadata::emblems "emblem-ohno" "emblem-package"
-done

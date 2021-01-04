@@ -1,10 +1,15 @@
 #!/bin/bash
 
+# this script should be run from WITHIN a show root,
+# but if we're somewhere else and running ON a show root then cd to it or exit.
 if [ -n "${1}" ]; then
     cd "${1}" || exit
 fi
 
+source "$(dirname "${0}")/init.sh"
+
 confirm(){ zenity --question --text="${1}" --width="$(( ${#1} * 10 ))"; }
 $(confirm "Clear .plexignore tree?") && find -name .plexignore -exec rm {} \+
 $(confirm "Clear symlinks?") && find __plex -type l -exec rm {} \+
+$(confirm "Clear emblems?") && find -type d | while read d; do _setEmblems "${d}" ""; done
 

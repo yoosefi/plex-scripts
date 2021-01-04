@@ -1,4 +1,8 @@
 #!/bin/bash
+source "$(dirname "${0}")/init.sh"
+
+touch plex.tsv
+addEmblem plex.tsv emblem-synchronizing-symbolic.symbolic
 
 for src in "${@}"; do
 
@@ -17,3 +21,4 @@ for src in "${@}"; do
     done
 done
 
+rmEmblem plex.tsv emblem-synchronizing-symbolic.symbolic
