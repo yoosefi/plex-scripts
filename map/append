@@ -5,7 +5,7 @@ touch plex.tsv
 addEmblem plex.tsv $Sync
 
 # scan for regular files
-find "${@}" -type f -not -name '.*' | sort | while read target; do
+find "${@}" -type f | sort | while read target; do
 
     # only use videos
     [[ $(mimetype -b "${target}") == video/* ]] || continue
