@@ -3,7 +3,7 @@ source "$(dirname "${0}")/init.sh"
 
 touch plex.tsv
 addEmblem plex.tsv $Sync
-for src in "${@}"; do
+for src in $(printf "%s\n" "${@}" | sort); do
 
     # scan for regular files
     find "${src}" -type f -not -name '.*' | sort | while read target; do
