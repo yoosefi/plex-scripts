@@ -3,21 +3,20 @@ source "$(dirname "${0}")/init.sh"
 
 touch plex.tsv
 addEmblem plex.tsv $Sync
-for src in $(printf "%s\n" "${@}" | sort); do
 
-    # scan for regular files
-    find "${src}" -type f -not -name '.*' | sort | while read target; do
+# scan for regular files
+find "${@}" -type f -not -name '.*' | sort | while read target; do
 
-        # only use videos
-        [[ $(mimetype -b "${target}") == video/* ]] || continue
+    # only use videos
+    [[ $(mimetype -b "${target}") == video/* ]] || continue
 
-        # empty col 1 + col 2
-        echo -en "\t\t" >> plex.tsv
+    # empty col 1 + col 2
+    echo -en "\t\t" >> plex.tsv
 
-        # col 3 without escape chars enabled
-        echo "${target}" >> plex.tsv
+    # col 3 without escape chars enabled
+    echo "${target}" >> plex.tsv
 
-    done
 done
+
 rmEmblem plex.tsv $Sync
 
