@@ -1,9 +1,8 @@
 #!/bin/bash
+source "$(dirname "${0}")/init.sh"
 
 for x in "${@}"; do
     plexignore="$(dirname "${x}")/.plexignore"
-    name="$(basename "${x}")"
-    [ -f "${x}" ] && echo "${name}" >> "${plexignore}"
-    [ -d "${x}" ] && echo "${name}/*" >> "${plexignore}"
+    echo "$(toIgnore "${x}")" >> "${plexignore}"
     sort -u -o "${plexignore}" "${plexignore}"
 done

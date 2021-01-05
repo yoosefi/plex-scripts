@@ -12,7 +12,7 @@ while IFS=$'\t' read -r -a row; do
     target="${row[2]:-${row[1]:-${row[0]}}}"
 
     # the target has to be ignored in the dir where it lives, not from a parent dir.
-    [ -f "${target}" ] && echo "$(basename "${target}")" >> "$(dirname "${target}")/.plexignore"
+    [ -f "${target}" ] && echo "$(toIgnore "${target}")" >> "$(dirname "${target}")/.plexignore"
 
     # skip symlinking if any fields are blank
     [ -z "${row[2]}" ] && continue

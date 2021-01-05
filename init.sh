@@ -28,3 +28,9 @@ rmEmblem() {
     _setEmblems "${1}" "${a[@]}"
 }
 
+toIgnore() {
+    # emulate python3 glob.escape()
+    #        [[] [?] [*]
+    pattern=$(sed 's/\(\[\|\?\|\*\)/[\1]/g' <<< "$(basename "${1}")")
+    [ -d "${1}" ] && echo "${pattern}/*" || echo "${pattern}"
+}
