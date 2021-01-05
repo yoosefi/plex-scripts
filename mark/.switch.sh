@@ -1,20 +1,14 @@
 #!/bin/bash
 source "$(dirname "${0}")/init.sh"
 
-Attention=emblem-important-symbolic.symbolic
-Collection=emblem-package
-Complete=emblem-installed
-Partial=emblem-ok-symbolic.symbolic
-Missing=emblem-ohno
-
 for x in "${@}"; do
     [ -d "${x}" ] || continue;
     case "$(basename "${0}")" in
         attention)
-            addEmblem "${x}" emblem-important-symbolic.symbolic
+            addEmblem "${x}" $Attention
         ;;
         collection)
-            addEmblem "${x}" emblem-package
+            addEmblem "${x}" $Collection
         ;;
         complete)
             addEmblem "${x}" $Complete

@@ -1,5 +1,12 @@
 #!/bin/bash
 
+Attention=emblem-important-symbolic.symbolic
+Collection=emblem-package
+Complete=emblem-installed
+Missing=emblem-ohno
+Partial=emblem-ok-symbolic.symbolic
+Sync=emblem-synchronizing-symbolic.symbolic
+
 _getEmblems(){
     gio info -na metadata::emblems "$(realpath -s "${1}")" | awk 'match($0, "metadata::emblems: \\[(.+)\\]",m) { print m[1] }' | sed 's/,/ /g'
 }
@@ -34,3 +41,4 @@ toIgnore() {
     pattern=$(sed 's/\(\[\|\?\|\*\)/[\1]/g' <<< "$(basename "${1}")")
     [ -d "${1}" ] && echo "${pattern}/*" || echo "${pattern}"
 }
+

@@ -6,3 +6,4 @@ for x in "${@}"; do
     echo "$(toIgnore "${x}")" >> "${plexignore}"
     sort -u -o "${plexignore}" "${plexignore}"
 done
+

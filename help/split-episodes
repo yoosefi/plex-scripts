@@ -11,3 +11,4 @@ for (( i=$first; $i <= $last; i++ )); do
         printf "%02d%s\n" $i ${letters[$j]}
     done
 done | zenity --text-info
+

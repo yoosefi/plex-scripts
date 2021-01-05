@@ -8,3 +8,4 @@ skip=$(ask "How many episodes per file?" 3) || exit
 for (( i=$i; $i < $total; i += $skip )); do
     printf "%02d-E%02d\n" $i $(( $i + $skip - 1 ))
 done | zenity --text-info
+

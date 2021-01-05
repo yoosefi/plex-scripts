@@ -2,8 +2,7 @@
 source "$(dirname "${0}")/init.sh"
 
 touch plex.tsv
-addEmblem plex.tsv emblem-synchronizing-symbolic.symbolic
-
+addEmblem plex.tsv $Sync
 for src in "${@}"; do
 
     # scan for regular files
@@ -20,5 +19,5 @@ for src in "${@}"; do
 
     done
 done
+rmEmblem plex.tsv $Sync
 
-rmEmblem plex.tsv emblem-synchronizing-symbolic.symbolic
