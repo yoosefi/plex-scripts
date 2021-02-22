@@ -16,7 +16,9 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 
     Also updates the `.plexignore` tree and **sorts** `plex.tsv`, so if you have it open make sure to reload it.
 
-- `help/condensed-episodes`: Generates ranged `xx-Exx` values for mapping multi-episode files.
+- `help/condensed-episodes`: Generates ranged designators (`xx-Exx`) for mapping multi-episode files.
+
+- `help/split-episodes`: Generates fragmented designators (`xxa`, `xxb`, etc.) for mapping multi-file episodes.
 
 - `mark/*`: Adds emblems to folders.
 
