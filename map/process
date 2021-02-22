@@ -37,7 +37,7 @@ find __plex -type l -not -newer plex.tsv -exec rm {} \+
 
 # sort plex.tsv
 # this must be done after pruning, because the old mtime is needed for that.
-sort -k1n -k2n -o plex.tsv plex.tsv
+sort -n -k1,1 -k2,2 -t$'\t' -o plex.tsv plex.tsv
 
 # sort .plexignore tree
 find -name .plexignore -exec sort -u -o {} {} \;
