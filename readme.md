@@ -51,5 +51,27 @@ The TSV is a map which defines what gets ignored and symlinked.
 ## Example plex.tsv
 ```
 		ignore-me.mp4
-0	1	misc/pilot.mp4
+0	1	misc/unaired-pilot.mp4
 ```
+
+## Example Processing Result
+`.plexignore`
+```
+ignore-me.mp4
+```
+
+`misc/.plexignore`
+```
+unaired-pilot.mp4
+```
+
+`__plex/`
+```
+S00E01.mp4 -> ../misc/unaired-pilot.mp4
+```
+
+## Explanation
+Even though `misc/unaired-pilot.mp4` is ignored, the symlink isn't. Plex sees `__plex/S00E01.mp4` as a video file, and uses it.
+
+Thus, Plex can be organized without renaming or moving source videos.
+
