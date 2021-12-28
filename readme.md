@@ -8,9 +8,9 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 
 ## Scripts
 - **`map/append`:** From the show's main directory, select files/directories and run this to append videos to `plex.tsv`
+    - Subtitles can be mapped, too. The episode designation column must align as `EPISODE.ISO2.EXT` (e.g. `01.en.srt`)
 
     Once you've edited `plex.tsv` to your liking with your favorite spreadsheet program, run the `map/process` script.
-
 
 - **`map/process`:** From the show's main directory, reads `plex.tsv` and creates symlinks in a reserved directory named `__plex`
 

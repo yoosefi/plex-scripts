@@ -7,8 +7,16 @@ addEmblem plex.tsv $Sync
 # scan for regular files
 find "${@}" -type f | sort | while read target; do
 
+    ext="${target##*.}"
+
     # only use videos
-    [[ $(mimetype -b "${target}") == video/* ]] || continue
+    [[ $(mimetype -b "${target}") == video/* ]] || \
+        [[ "${ext}" == ass ]] || \
+        [[ "${ext}" == smi ]] || \
+        [[ "${ext}" == srt ]] || \
+        [[ "${ext}" == ssa ]] || \
+        [[ "${ext}" == vtt ]] || \
+        continue
 
     # empty col 1 + col 2
     echo -en "\t\t" >> plex.tsv
