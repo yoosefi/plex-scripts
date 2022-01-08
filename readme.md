@@ -7,8 +7,7 @@ Your video files will not be renamed, moved, or modified in any way by these scr
 To install, clone this repo in `~/.local/share/nemo/scripts`
 
 ## Scripts
-- **`map/append`:** From the show's main directory, select files/directories and run this to append videos to `plex.tsv`
-    - Subtitles can be mapped, too. The episode designation column must align as `EPISODE.ISO2` (e.g. `01.en`)
+- **`map/append`:** From the show's main directory, select files/directories and run this to append videos and subtitles to `plex.tsv`
     - Supported subtitles: `ass`, `smi`, `srt`, `ssa`, `vtt`
 
     Once you've edited `plex.tsv` to your liking with your favorite spreadsheet program, run the `map/process` script.
@@ -42,6 +41,8 @@ The TSV is a map which defines what gets ignored and symlinked.
     - A Plex-friendly designator that will be prefixed with "E" when symlinking. For example:
         - "01-E02" becomes "E01-E02" (the `help/condensed-episodes` script can help you fill these)
         - "01a" becomes "E01a" (the `help/split-episodes` script can help you fill these)
+    - Subtitles can be mapped, too. The designator must be `<EPISODE>.<ISO2>`
+        - For example: `01.en` means English subtitles for `E01`
 
 - The third column MUST NOT be changed, it's the video path relative to the show root.
     Files in this column are added to the .plexignore tree by the processor,
