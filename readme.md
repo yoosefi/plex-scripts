@@ -29,7 +29,7 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 - `x-reset-x`: From the show's main directory, clears the `.plexignore` tree and `__plex` symlinks (asks for confirmation)
 
 ## plex.tsv
-The TSV is a map which defines what gets ignored and symlinked.
+The TSV is an **unquoted** map which defines what gets ignored and symlinked.
 
 - The first column is the SEASON designator, and MUST be either:
     - An integer (0, 1, 2, 3, ...)
