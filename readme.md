@@ -32,7 +32,7 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 
     Enter the relative paths to the credits, the season number, and the beginning episode number.
 
-    The resulting tab-separated rows can be pasted directly into `plex.tsv`
+    The resulting rows can be pasted directly into `plex.tsv`
 
 - `help/split-episodes`: Generates fragmented designators (`xxa`, `xxb`, etc.) for mapping single expisodes that split among multiple files.
 
