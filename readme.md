@@ -34,7 +34,7 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 
     The resulting rows can be pasted directly into `plex.tsv`
 
-- `help/split-episodes`: Generates fragmented designators (`xxa`, `xxb`, etc.) for mapping single episodes split among multiple files.
+- `help/split-episodes`: Generates fragmented designators (`xxa`, `xxb`, etc.) for mapping single episodes that are split among multiple files.
 
     No files need to be selected to run this, but you will want to `map/append` the episodes to `plex.tsv` first.
 
