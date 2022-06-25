@@ -2,7 +2,7 @@
 
 Helps you organize your files via symbolic links so Plex lists them correctly.
 
-Your video files will not be renamed, moved, or modified in any way by these scripts.
+Your files will not be renamed, moved, or modified in any way by these scripts.
 
 To install, clone this repo in `~/.local/share/nemo/scripts`
 
@@ -22,6 +22,12 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 
     The resulting output can be pasted into an editor for the second column (episode designator) alongside the file paths.
 
+- `help/split-episodes`: Generates fragmented designators (`xxa`, `xxb`, etc.) for mapping single episodes that are split among multiple files.
+
+    No files need to be selected to run this, but you will want to `map/append` the episodes to `plex.tsv` first.
+
+    The resulting output can be pasted into an editor for the second column (episode designator) alongside the file paths.
+
 - `help/credits`: Generates complete rows for `plex.tsv` that recombine episodes with their credits.
 
     **NOTE: Due to a limitation of Plex, the credits and episodes must have identical streams (audio, subtitles, and average video bitrate).**
@@ -33,12 +39,6 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
     Enter the relative paths to the credits, the season number, and the beginning episode number.
 
     The resulting rows can be pasted directly into `plex.tsv`
-
-- `help/split-episodes`: Generates fragmented designators (`xxa`, `xxb`, etc.) for mapping single episodes that are split among multiple files.
-
-    No files need to be selected to run this, but you will want to `map/append` the episodes to `plex.tsv` first.
-
-    The resulting output can be pasted into an editor for the second column (episode designator) alongside the file paths.
 
 - `mark/*`: Adds emblems to folders.
 
