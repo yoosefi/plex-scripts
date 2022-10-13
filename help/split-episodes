@@ -5,10 +5,9 @@ first=$(ask "First episode number?" 1) || exit
 last=$(ask "Last episode number?" 21) || exit
 splits=$(ask "How many files per episode?" 3) || exit
 
-letters=({a..z})
 for (( i=$first; $i <= $last; i++ )); do
-    for (( j=0; $j < $splits; j++ )); do
-        printf "%02d%s\n" $i ${letters[$j]}
+    for (( j=1; $j <= $splits; j++ )); do
+        printf "%02d.pt%d\n" $i $j
     done
 done | zenity --text-info
 
