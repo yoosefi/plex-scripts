@@ -22,7 +22,7 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 
     The resulting output can be pasted into an editor for the second column (episode designator) alongside the file paths.
 
-- `help/split-episodes`: Generates fragmented designators (`xxa`, `xxb`, etc.) for mapping single episodes that are split among multiple files.
+- `help/split-episodes`: Generates fragment-designators (`ptX`) for mapping single episodes that are split among multiple files.
 
     No files need to be selected to run this, but you will want to `map/append` the episodes to `plex.tsv` first.
 
@@ -60,7 +60,7 @@ The TSV is an **unquoted** and **headless** map which defines what gets ignored 
     - Blank to have the processor skip symlinking.
     - A Plex-friendly designator that will be prefixed with "E" when symlinking. For example:
         - "01-E02" becomes "E01-E02" (the `help/condensed-episodes` script can help you fill these)
-        - "01a" becomes "E01a" (the `help/split-episodes` script can help you fill these)
+        - "01.pt1" becomes "E01.pt1" (the `help/split-episodes` script can help you fill these)
     - Subtitles can be mapped, too. The designator must be `<EPISODE>.<ISO2>`
         - For example: `01.en` means English subtitles for `E01`
 
