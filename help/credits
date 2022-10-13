@@ -4,19 +4,19 @@ ask() { zenity --entry --title="Openings/Endings" --text="${1}" --entry-text="${
 opening=$(ask "Relative path to opening credits?")
 ending=$(ask "Relative path to ending credits?")
 s=$(ask "Season number?" 1) || exit
-i=$(ask "First episode number?" 1) || exit
+e=$(ask "First episode number?" 1) || exit
 
 for x in "${@}"; do
     if [ ! -z "${opening}" ]; then
-        printf "%d\t%02da\t%s\n" $s $i "${opening}"
-        printf "%d\t%02db\t%s\n" $s $i "${x}"
+        printf "%d\t%02d.pt1\t%s\n" $s $e "${opening}"
+        printf "%d\t%02d.pt2\t%s\n" $s $e "${x}"
         if [ ! -z "${ending}" ]; then
-            printf "%d\t%02dc\t%s\n" $s $i "${ending}"
+            printf "%d\t%02d.pt3\t%s\n" $s $e "${ending}"
         fi
     elif [ ! -z "${ending}" ]; then
-        printf "%d\t%02da\t%s\n" $s $i "${x}"
-        printf "%d\t%02db\t%s\n" $s $i "${ending}"
+        printf "%d\t%02d.pt1\t%s\n" $s $e "${x}"
+        printf "%d\t%02d.pt2\t%s\n" $s $e "${ending}"
     fi
-    i=$(($i + 1))
+    e=$(($e + 1))
 done | zenity --text-info
 
