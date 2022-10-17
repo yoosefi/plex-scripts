@@ -115,7 +115,7 @@ Edit `~/.gnome2/accels/nemo` and find the scripts you want to add shortcuts to. 
 - `map/append` = `<Primary><Alt><Shift>a`
 - `map/process` = `<Primary><Alt><Shift>p`
 - `mark/complete` = `<Primary><Alt><Shift>c`
-- `mark/incomplete` = `<Primary><Alt><Shift>i`
+- `mark/mostly-complete` = `<Primary><Alt><Shift>i`
 
 Note: `<Primary>` is used in the config to mean `CTRL` for normal keyboards and `CMD` for Macs. Also make sure to remove the leading `; ` which comments-out the line.
 
