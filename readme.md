@@ -97,3 +97,25 @@ Even though `misc/unaired-pilot.mp4` is ignored, the symlink isn't. Plex sees `_
 
 Thus, Plex can be organized without renaming or moving source videos.
 
+## Keyboard Shortcuts
+Something that can greatly improve the experience of organizing large libraries is to bind some of these scripts to keyboard shortcuts.
+
+From a shell:
+
+```
+nemo -q
+touch ~/.gnome2/accels/nemo
+nemo .
+```
+
+Press `CTRL+F1` to open the shortcut menu, which populates `.gnome2/accels/nemo`. Then close the dialog and the nemo window.
+
+Edit `~/.gnome2/accels/nemo` and find the scripts you want to add shortcuts to. Here's what I have:
+
+- `map/append` = `<Primary><Alt><Shift>a`
+- `map/process` = `<Primary><Alt><Shift>p`
+- `mark/complete` = `<Primary><Alt><Shift>c`
+- `mark/incomplete` = `<Primary><Alt><Shift>i`
+
+Note: `<Primary>` is used in the config to mean `CTRL` for normal keyboards and `CMD` for Macs. Also make sure to remove the leading `; ` which comments-out the line.
+
