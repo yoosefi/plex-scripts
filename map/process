@@ -26,7 +26,8 @@ while IFS=$'\t' read -r -a row; do
     episode=$(printf "E%02d" "${row[1]}") || episode="E${row[1]}"
 
     # symlink using file extension
-    ln -srf "${target}" "__plex/${season}${episode}.${target##*.}"
+    mkdir -p "__plex/${season}"
+    ln -srf "${target}" "__plex/${season}/${season}${episode}.${target##*.}"
 
 done < plex.tsv
 
@@ -36,6 +37,7 @@ done < plex.tsv
 # even if they're immediately re-linked. we only want plex to see real changes.
 # FIXME this has a race if plex.tsv has the same mtime as invocation. human lag should be enough.
 find __plex -type l -not -newer plex.tsv -exec rm {} \+
+find __plex -mindepth 1 -type d -empty -exec rm -r {} \+
 
 # sort plex.tsv
 # this must be done after pruning, because the old mtime is needed for that.
