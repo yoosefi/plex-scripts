@@ -51,7 +51,7 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 ## plex.tsv
 The TSV is an **unquoted** and **headless** map which defines what gets ignored and symlinked.
 
-- The first column is the SEASON or ASSET designator, and MUST be either:
+1. The first column is the SEASON or ASSET designator, and MUST be either:
     - Blank to have the processor skip symlinking
     - For shows, a season integer (0, 1, 2, 3, ...)
     - For movie extras, one of the [Local Media Asset](https://support.plex.tv/articles/local-files-for-trailers-and-extras/) tags:
@@ -64,7 +64,7 @@ The TSV is an **unquoted** and **headless** map which defines what gets ignored 
         - `trailer`
         - `other`
 
-- The second column is the EPISODE or INDEX designator, and MUST be either:
+2. The second column is the EPISODE or INDEX designator, and MUST be either:
     - Blank to have the processor skip symlinking
     - For shows:
         - An episode integer (0, 1, 2, 3, ...)
@@ -79,11 +79,11 @@ The TSV is an **unquoted** and **headless** map which defines what gets ignored 
     - Subtitles can be mapped, too. The designator must be `<OWNER>.<ISO2>`
         - For example: "01.en" becomes `E01.en`, which is English subtitles for `E01`
 
-- The third column MUST NOT be changed, it's the content path relative to the TSV's directory.
+3. The third column MUST NOT be changed, it's the content path relative to the TSV's directory.
     Files in this column are added to the .plexignore tree by the processor,
     regardless of whether they get symlinked.
 
-- There MUST NOT be any columns after the third.
+    There MUST NOT be any columns after the third.
 
 ## TV Example
 `plex.tsv`:
@@ -138,7 +138,11 @@ Official Trailer-trailer.mp4            -> misc/Official Trailer.mp4
 
 ### Caveats
 Unfortunately, the bloated "inline" way is the only way to control the sorting of movie extras.
-The extras have to exist on the same level as the movie; there's no way to have them work in the `__plex` directory.
+The inline extras have to exist on the same level as the movie; there's no way to have them work in the `__plex` directory.
+Also, there can't be *any* other video in the movie's directory, except for the the movie and extras themselves.
+
+> [Local Files for Movie Trailers and Extras > Adding Local Trailers and Extras](https://support.plex.tv/articles/local-files-for-trailers-and-extras/)
+> "Besides the extras themselves, you can only have the main movie file (or other local media assets) in the directory."
 
 There is a known bug with the "subdirectories" approach where the sorting is seemingly random -- regardless of file name, modification time, etc.
 Plex has ackowledged this bug ever since the "extras" feature was added, and they've done nothing about it.
