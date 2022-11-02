@@ -18,16 +18,32 @@ while IFS=$'\t' read -r -a row; do
 
     # skip symlinking if any fields are blank
     [ -z "${row[2]}" ] && continue
+    targetName=$(basename "${target%.*}")
+    targetExt="${target##*.}"
 
-    # season number must be integer
-    season=$(printf "S%02d" "${row[0]}") || continue;
+    # is the first col a tv season?
+    if season=$(printf "S%02d" "${row[0]}"); then
 
-    # expect the episode number to be an integer, but fall back to literal
-    episode=$(printf "E%02d" "${row[1]}") || episode="E${row[1]}"
+        # expect the episode number to be an integer, but fall back to literal
+        episode=$(printf "E%02d" "${row[1]}") || episode="E${row[1]}"
 
-    # symlink using file extension
-    mkdir -p "__plex/${season}"
-    ln -srf "${target}" "__plex/${season}/${season}${episode}.${target##*.}"
+        # symlink using file extension
+        mkdir -p "__plex/${season}"
+        ln -srf "${target}" "__plex/${season}/${season}${episode}.${targetExt}"
+
+    # the first col is a local media asset type
+    elif [[ "${row[0]}" =~ ^(behindthescenes|deleted|featurette|interview|scene|short|trailer|other)+$ ]]; then
+
+        # expect "as-is" (hyphen), an index, or literal name.
+        # sadly, the subdir-based extras do not follow any kind of predictable sorting when displayed,
+        # so we have to symlink in the content root (the bloated "inline" way), which actually will sort alphabetically.
+        # this is a known bug in plex that they have done nothing to resolve since the feature was added.
+        if [ "${row[1]}" == "-" ]; then ln -srf "${target}" "${targetName}-${row[0]}.${targetExt}" # as-is
+        elif idx=$(printf "%02d" "${row[1]}"); then ln -srf "${target}" "${idx}. ${targetName}-${row[0]}.${targetExt}" # indexed basename
+        else ln -srf "${target}" "${row[1]}-${row[0]}.${targetExt}" # literal name
+        fi
+
+    fi
 
 done < plex.tsv
 
@@ -37,7 +53,10 @@ done < plex.tsv
 # even if they're immediately re-linked. we only want plex to see real changes.
 # FIXME this has a race if plex.tsv has the same mtime as invocation. human lag should be enough.
 find __plex -type l -not -newer plex.tsv -exec rm {} \+
-find __plex -mindepth 1 -type d -empty -exec rm -r {} \+
+find __plex -type d -empty -exec rm -r {} \+
+for lma in behindthescenes deleted featurette interview scene short trailer other; do
+    find -maxdepth 1 -type l -name "*-${lma}.*" -not -newer plex.tsv -exec rm {} \+
+done
 
 # sort plex.tsv
 # this must be done after pruning, because the old mtime is needed for that.

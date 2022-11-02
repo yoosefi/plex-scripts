@@ -7,12 +7,12 @@ Your files will not be renamed, moved, or modified in any way by these scripts.
 To install, clone this repo in `~/.local/share/nemo/scripts`
 
 ## Scripts
-- **`map/append`:** From the show's main directory, select files/directories and run this to append videos and subtitles to `plex.tsv`
+- **`map/append`:** From the show or movie's directory, select files/directories and run this to append videos and subtitles to `plex.tsv`
     - Supported subtitles: `ass`, `smi`, `srt`, `ssa`, `vtt`
 
     Once you've edited `plex.tsv` to your liking with your favorite spreadsheet program, run the `map/process` script.
 
-- **`map/process`:** From the show's main directory, reads `plex.tsv` and creates symlinks in a reserved directory named `__plex`
+- **`map/process`:** From the show or movie's directory, reads `plex.tsv` and creates symlinks.
 
     Also updates the `.plexignore` tree and **sorts** `plex.tsv`, so if you have it open make sure to reload it.
 
@@ -34,7 +34,7 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 
     Anime, for example, often has the credits removed from all episodes.
 
-    From the show root, open a tree view and select the episodes that are missing their credits, and run this.
+    From the show's directory, open a tree view and select the episodes that are missing their credits, and run this.
 
     Enter the relative paths to the credits, the season number, and the beginning episode number.
 
@@ -46,56 +46,104 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 
 - `unignore`: Removes selected files/directories from the `.plexignore` tree.
 
-- `x-reset-x`: From the show's main directory, clears the `.plexignore` tree and `__plex` symlinks (asks for confirmation)
+- `x-reset-x`: From the show's directory, clears the `.plexignore` tree and `__plex` symlinks (asks for confirmation)
 
 ## plex.tsv
 The TSV is an **unquoted** and **headless** map which defines what gets ignored and symlinked.
 
-- The first column is the SEASON designator, and MUST be either:
-    - An integer (0, 1, 2, 3, ...)
-    - Blank to have the processor skip symlinking.
+- The first column is the SEASON or ASSET designator, and MUST be either:
+    - Blank to have the processor skip symlinking
+    - For shows, a season integer (0, 1, 2, 3, ...)
+    - For movie extras, one of the [Local Media Asset](https://support.plex.tv/articles/local-files-for-trailers-and-extras/) tags:
+        - `behindthescenes`
+        - `deleted`
+        - `featurette`
+        - `interview`
+        - `scene`
+        - `short`
+        - `trailer`
+        - `other`
 
-- The second column is the EPISODE designator, and MUST be either:
-    - An integer (0, 1, 2, 3, ...)
-    - Blank to have the processor skip symlinking.
-    - A Plex-friendly designator that will be prefixed with "E" when symlinking. For example:
-        - "01-E02" becomes "E01-E02" (the `help/condensed-episodes` script can help you fill these)
-        - "01.pt1" becomes "E01.pt1" (the `help/split-episodes` script can help you fill these)
-    - Subtitles can be mapped, too. The designator must be `<EPISODE>.<ISO2>`
-        - For example: `01.en` means English subtitles for `E01`
+- The second column is the EPISODE or INDEX designator, and MUST be either:
+    - Blank to have the processor skip symlinking
+    - For shows:
+        - An episode integer (0, 1, 2, 3, ...)
+        - A Plex-friendly episode designator that will be prefixed with "E" when symlinking. For example:
+            - "01-E02" becomes `E01-E02` (the `help/condensed-episodes` script can help you fill these)
+            - "01.pt1" becomes `E01.pt1` (the `help/split-episodes` script can help you fill these)
+    - For movie extras:
+        - A hyphen (`-`) to use the file name as-is and trust Plex's alphabetical sorting
+        - An integer (1, 2, 3, ...) to index the extra for sorting
+        - Any other label to be used literally
+        
+    - Subtitles can be mapped, too. The designator must be `<OWNER>.<ISO2>`
+        - For example: "01.en" becomes `E01.en`, which is English subtitles for `E01`
 
-- The third column MUST NOT be changed, it's the video path relative to the show root.
+- The third column MUST NOT be changed, it's the content path relative to the TSV's directory.
     Files in this column are added to the .plexignore tree by the processor,
     regardless of whether they get symlinked.
 
 - There MUST NOT be any columns after the third.
 
-## Example plex.tsv
+## TV Example
+`plex.tsv`:
 ```
 		ignore-me.mp4
 0	1	misc/unaired-pilot.mp4
 ```
 
-## Example Processing Result
-`.plexignore`
+### Result
+`.plexignore`:
 ```
 ignore-me.mp4
 ```
 
-`misc/.plexignore`
+`misc/.plexignore`:
 ```
 unaired-pilot.mp4
 ```
 
-`__plex/`
+`__plex/` directory:
 ```
 S00E01.mp4 -> ../misc/unaired-pilot.mp4
 ```
 
-## Explanation
-Even though `misc/unaired-pilot.mp4` is ignored, the symlink isn't. Plex sees `__plex/S00E01.mp4` as a video file, and uses it.
+### Explanation
+Even though `misc/unaired-pilot.mp4` is similarly ignored, the symlink isn't. Plex sees `__plex/S00E01.mp4` as a video, and uses it.
 
-Thus, Plex can be organized without renaming or moving source videos.
+Thus, Plex can be organized without renaming or moving source files.
+
+## Movie Extras Example
+`plex.tsv`:
+```
+trailer	-	misc/Official Trailer.mp4
+deleted	1	misc/Deleted Scene.mp4
+deleted	2	misc/Another Deleted Scene.mp4
+```
+
+### Result
+`misc/.plexignore`:
+```
+Official Trailer.mp4
+Deleted Scene.mp4
+Another Deleted Scene.mp4
+```
+
+The movie's directory:
+```
+Official Trailer-trailer.mp4            -> misc/Official Trailer.mp4
+01. Deleted Scene-deleted.mp4           -> misc/Deleted Scene.mp4
+02. Another Deleted Scene-deleted.mp4   -> misc/Another Deleted Scene.mp4
+```
+
+### Caveats
+Unfortunately, the bloated "inline" way is the only way to control the sorting of movie extras.
+The extras have to exist on the same level as the movie; there's no way to have them work in the `__plex` directory.
+
+There is a known bug with the "subdirectories" approach where the sorting is seemingly random -- regardless of file name, modification time, etc.
+Plex has ackowledged this bug ever since the "extras" feature was added, and they've done nothing about it.
+
+If/when they fix the bug, the processor will be updated to use the "subdirectories" approach. Maps will not need to be updated, the code-friendly lowercase tags will continue to be used for mapping.
 
 ## Keyboard Shortcuts
 Something that can greatly improve the experience of organizing large libraries is to bind some of these scripts to keyboard shortcuts.
