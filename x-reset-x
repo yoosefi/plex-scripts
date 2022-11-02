@@ -9,7 +9,19 @@ fi
 source "$(dirname "${0}")/init.sh"
 
 confirm(){ zenity --question --text="${1}" --width="$(( ${#1} * 10 ))"; }
-$(confirm "Clear .plexignore tree?") && find -name .plexignore -exec rm {} \+
-$(confirm "Clear symlinks?") && find __plex -type l -exec rm {} \+
-$(confirm "Clear emblems?") && find -type d | while read d; do _setEmblems "${d}" ""; done
+
+if $(confirm "Clear symlinks?"); then
+    find __plex -type l -exec rm {} \+
+    for lma in behindthescenes deleted featurette interview scene short trailer other; do
+        find -maxdepth 1 -type l -name "*-${lma}.*" -exec rm {} \+
+    done
+fi
+
+if $(confirm "Clear .plexignore tree?"); then
+    find -name .plexignore -exec rm {} \+
+fi
+
+if $(confirm "Clear emblems?"); then
+    find -type d | while read d; do _setEmblems "${d}" ""; done
+fi
 
