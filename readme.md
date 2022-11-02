@@ -142,6 +142,7 @@ The inline extras have to exist on the same level as the movie; there's no way t
 Also, there can't be *any* other video in the movie's directory, except for the the movie and extras themselves.
 
 > [Local Files for Movie Trailers and Extras > Adding Local Trailers and Extras](https://support.plex.tv/articles/local-files-for-trailers-and-extras/)
+>
 > "Besides the extras themselves, you can only have the main movie file (or other local media assets) in the directory."
 
 There is a known bug with the "subdirectories" approach where the sorting is seemingly random -- regardless of file name, modification time, etc.
