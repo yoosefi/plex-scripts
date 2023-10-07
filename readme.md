@@ -93,11 +93,11 @@ unaired-pilot.mp4
 
 `__plex/` directory:
 ```
-S00E01.mp4 -> ../misc/unaired-pilot.mp4
+S00/S00E01.mp4 -> ../../misc/unaired-pilot.mp4
 ```
 
 ### Explanation
-Even though `misc/unaired-pilot.mp4` is similarly ignored, the symlink isn't. Plex sees `__plex/S00E01.mp4` as a video, and uses it.
+Even though `misc/unaired-pilot.mp4` is similarly ignored, the symlink isn't. Plex sees `__plex/S00/S00E01.mp4` as a video, and uses it.
 
 Thus, Plex can be organized without renaming or moving source files.
 
