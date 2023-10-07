@@ -28,18 +28,6 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 
     The resulting output can be pasted into an editor for the second column (episode designator) alongside the file paths.
 
-- `help/credits`: Generates complete rows for `plex.tsv` that recombine episodes with their credits.
-
-    **NOTE: Due to a limitation of Plex, the credits and episodes must have identical streams (audio, subtitles, and average video bitrate).**
-
-    Anime, for example, often has the credits removed from all episodes.
-
-    From the show's directory, open a tree view and select the episodes that are missing their credits, and run this.
-
-    Enter the relative paths to the credits, the season number, and the beginning episode number.
-
-    The resulting rows can be pasted directly into `plex.tsv`
-
 - `mark/*`: Adds emblems to folders.
 
 - `ignore`: Adds selected files/directories to the `.plexignore` tree.
