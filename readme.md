@@ -127,7 +127,11 @@ Official Trailer-trailer.mp4            -> misc/Official Trailer.mp4
 ### Caveats
 Unfortunately, the bloated "inline" way is the only way to control the sorting of movie extras.
 The inline extras have to exist on the same level as the movie; there's no way to have them work in the `__plex` directory.
-Also, there can't be *any* videos in the movie's directory except for the the movie and the inline extras themselves.
+
+Also, there can't be *any* other videos in the movie file's directory except for the movie and the inline extras themselves, at all,
+including the source files for the extras that would be otherwise be mapped and ignored.
+The movie file's directory must purely only contain videos/symlinks that comprise the final set.
+So, extras should be placed in an arbitrary subdirectory and mapped from there.
 
 > [Local Files for Movie Trailers and Extras > Adding Local Trailers and Extras](https://support.plex.tv/articles/local-files-for-trailers-and-extras/)
 >
