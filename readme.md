@@ -37,9 +37,10 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 - `x-reset-x`: From the show's directory, clears the `.plexignore` tree and `__plex` symlinks (asks for confirmation)
 
 ## plex.tsv
-The TSV is an **unquoted** and **headless** map which defines what gets ignored and symlinked.
+The TSV is an **unquoted** and **headless** map which defines what gets plex-ignored and symlinked.
 
 1. The first column is the SEASON or ASSET designator, and MUST be either:
+    - `#` to denote a comment-row (see section below)
     - Blank to have the processor skip symlinking
     - For shows, a season integer (0, 1, 2, 3, ...)
     - For movie extras, one of the [Local Media Asset](https://support.plex.tv/articles/local-files-for-trailers-and-extras/) tags:
@@ -67,15 +68,17 @@ The TSV is an **unquoted** and **headless** map which defines what gets ignored 
     - Subtitles can be mapped, too. The designator must be `<OWNER>.<ISO2>`
         - For example: "01.en" becomes `E01.en`, which is English subtitles for `E01`
 
-3. The third column MUST NOT be changed, it's the content path relative to the TSV's directory.
-    Files in this column are added to the .plexignore tree by the processor,
+3. The third column is the MEDIA PATH relative to the TSV's directory.
+    Files in this column are added to the `.plexignore` tree by the processor,
     regardless of whether they get symlinked.
 
     There MUST NOT be any columns after the third.
 
+
 ## TV Example
 `plex.tsv`:
 ```
+#		this is a comment
 		ignore-me.mp4
 0	1	misc/unaired-pilot.mp4
 ```
@@ -100,6 +103,15 @@ S00/S00E01.mp4 -> ../../misc/unaired-pilot.mp4
 Even though `misc/unaired-pilot.mp4` is similarly ignored, the symlink isn't. Plex sees `__plex/S00/S00E01.mp4` as a video, and uses it.
 
 Thus, Plex can be organized without renaming or moving source files.
+
+### Comment Rows
+Lines that begin with `#` are skipped entirely.
+Since `plex.tsv` is sorted, the comment text should be placed in the third column, and multiple comments should be numbered.
+```
+#		1. this is a multi-line comment
+#		2. which is skipped by the processor
+#		3. and is kept at the top of the tsv
+```
 
 ## Movie Extras Example
 `plex.tsv`:
