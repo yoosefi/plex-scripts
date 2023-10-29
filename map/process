@@ -13,8 +13,11 @@ while IFS=$'\t' read -r -a row; do
     # coalesce the target in case the season or episode is blank
     target="${row[2]:-${row[1]:-${row[0]}}}"
 
+    # blank line
+    [ -z "${target}" ] && continue
+
     # the target has to be ignored in the dir where it lives, not from a parent dir.
-    [ -f "${target}" ] && echo "$(toIgnore "${target}")" >> "$(dirname "${target}")/.plexignore"
+    echo "$(toIgnore "${target}")" >> "$(dirname "${target}")/.plexignore"
 
     # skip symlinking if any fields are blank
     [ -z "${row[2]}" ] && continue
