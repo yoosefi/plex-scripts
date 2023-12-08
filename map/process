@@ -6,6 +6,7 @@ source "$(dirname "${0}")/init.sh"
 mkdir -p __plex
 addEmblem __plex $Sync
 gio set -t string __plex metadata::pinned-to-top true
+gio set -t string plex.tsv metadata::pinned-to-top true
 
 addEmblem plex.tsv $Sync
 while IFS=$'\t' read -r -a row; do
