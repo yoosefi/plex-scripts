@@ -34,7 +34,7 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 
 - `unignore`: Removes selected files/directories from the `.plexignore` tree.
 
-- `x-reset-x`: From the show's directory, clears the `.plexignore` tree and `__plex` symlinks (asks for confirmation)
+- `x-reset-x`: From the show's directory, clears the `.plexignore` tree and `__` symlinks (asks for confirmation)
 
 ## plex.tsv
 The TSV is an **unquoted** and **headless** map which defines what gets plex-ignored and symlinked.
@@ -94,13 +94,13 @@ ignore-me.mp4
 unaired-pilot.mp4
 ```
 
-`__plex/` directory:
+`__/` directory:
 ```
 S00/S00E01.mp4 -> ../../misc/unaired-pilot.mp4
 ```
 
 ### Explanation
-Even though `misc/unaired-pilot.mp4` is similarly ignored, the symlink isn't. Plex sees `__plex/S00/S00E01.mp4` as a video, and uses it.
+Even though `misc/unaired-pilot.mp4` is similarly ignored, the symlink isn't. Plex sees `__/S00/S00E01.mp4` as a video, and uses it.
 
 Thus, Plex can be organized without renaming or moving source files.
 
@@ -138,7 +138,7 @@ Official Trailer-trailer.mp4            -> misc/Official Trailer.mp4
 
 ### Caveats
 Unfortunately, the bloated "inline" way is the only way to control the sorting of movie extras.
-The inline extras have to exist on the same level as the movie; there's no way to have them work in the `__plex` directory.
+The inline extras have to exist on the same level as the movie; there's no way to have them work in the `__` directory.
 
 Also, there can't be *any* other videos in the movie file's directory except for the movie and the inline extras themselves, at all,
 including the source files for the extras that would be otherwise be mapped and ignored.

@@ -1,5 +1,5 @@
 #!/bin/bash
-source "$(dirname "${0}")/init.sh"
+source "$(dirname "$(realpath "${0}")")/init.sh"
 
 touch plex.tsv
 addEmblem plex.tsv $Sync
