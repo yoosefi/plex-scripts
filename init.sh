@@ -16,7 +16,7 @@ _setEmblems() {
     [ -e "${path}" ] || return
     shift
     gio set -nt unset "${path}" metadata::emblems
-    [ -n $1 ] && gio set -nt stringv "${path}" metadata::emblems "${@}"
+    [ -n "${1}" ] && gio set -nt stringv "${path}" metadata::emblems "${@}"
     # poke inotify (refresh nemo) by touching without actually changing the mtime
     touch -r "${path}" "${path}"
 }

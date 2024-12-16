@@ -3,12 +3,12 @@
 source "$(dirname "${0}")/init.sh"
 
 # process rows into ignores and symlinks
+addEmblem plex.tsv $Sync
 mkdir -p __
 addEmblem __ $Sync
 gio set -t string __ metadata::pinned-to-top true
 gio set -t string plex.tsv metadata::pinned-to-top true
 
-addEmblem plex.tsv $Sync
 while IFS=$'\t' read -r -a row; do
 
     # coalesce the target in case the season or episode is blank
@@ -70,8 +70,8 @@ sort -n -k1,1 -k2,2 -t$'\t' -o plex.tsv plex.tsv
 find -name .plexignore -exec sort -u -o {} {} \;
 
 # done
-rmEmblem plex.tsv $Sync
 rmEmblem __ $Sync
+rmEmblem plex.tsv $Sync
 
 # kill the old dir that confuses plex
 rm -rf __plex
