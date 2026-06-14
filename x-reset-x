@@ -17,8 +17,9 @@ if $(confirm "Clear symlinks?"); then
     done
 fi
 
-if $(confirm "Clear .plexignore tree?"); then
+if $(confirm "Clear the ignore tree?"); then
     find -name .plexignore -exec rm {} \+
+    find -name .ignore -exec rm {} \+
 fi
 
 if $(confirm "Clear emblems?"); then

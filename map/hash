@@ -1,0 +1,10 @@
+#!/bin/bash
+# this should ideally be run on the actual machine, and not a mount
+
+rm -f .episodeHashes
+[ -d __ ] || exit
+
+showName=$(basename "$(realpath .)")
+find __ -type l | sort | while read x; do
+    echo -e "${showName}\t$(basename "${x}")\t$(sha256sum "${x}" | cut -d' ' -f1)" >> .episodeHashes
+done

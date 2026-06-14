@@ -1,0 +1,11 @@
+#!/bin/bash
+process="$(dirname "$(realpath "${0}")")/process"
+for x in "${@}"; do
+    if [ -d "${x}" ]; then
+        echo "${x}"
+        cd "${x}"
+        $process
+        cd - > /dev/null
+    fi
+done
+

@@ -1,13 +1,13 @@
 #!/bin/bash
 [ -f plex.tsv ] || exit
-source "$(dirname "${0}")/init.sh"
+source "$(dirname "$(realpath "${0}")")/../init.sh"
 
 # process rows into ignores and symlinks
 addEmblem plex.tsv $Sync
+pinToTop plex.tsv
 mkdir -p __
 addEmblem __ $Sync
-gio set -t string __ metadata::pinned-to-top true
-gio set -t string plex.tsv metadata::pinned-to-top true
+pinToTop __
 
 while IFS=$'\t' read -r -a row; do
 
@@ -18,7 +18,8 @@ while IFS=$'\t' read -r -a row; do
     [[ -z "${target}" || "${row::1}" = "#" ]] && continue
 
     # the target has to be ignored in the dir where it lives, not from a parent dir.
-    echo "$(toIgnore "${target}")" >> "$(dirname "${target}")/.plexignore"
+    echo "$(toPlexIgnore "${target}")" >> "$(dirname "${target}")/.plexignore"
+    echo "$(toJellyIgnore "${target}")" >> "$(dirname "${target}")/.ignore"
 
     # skip symlinking if any fields are blank
     [ -z "${row[2]}" ] && continue
@@ -26,10 +27,10 @@ while IFS=$'\t' read -r -a row; do
     targetExt="${target##*.}"
 
     # is the first col a tv season?
-    if season=$(printf "S%02d" "${row[0]}"); then
+    if season=$(printf "S%02d" "${row[0]}" 2>/dev/null); then
 
         # expect the episode number to be an integer, but fall back to literal
-        episode=$(printf "E%02d" "${row[1]}") || episode="E${row[1]}"
+        episode=$(printf "E%02d" "${row[1]}" 2>/dev/null) || episode="E${row[1]}"
 
         # symlink using file extension
         mkdir -p "__/${season}"
@@ -42,9 +43,12 @@ while IFS=$'\t' read -r -a row; do
         # sadly, the subdir-based extras do not follow any kind of predictable sorting when displayed,
         # so we have to symlink in the content root (the bloated "inline" way), which actually will sort alphabetically.
         # this is a known bug in plex that they have done nothing to resolve since the feature was added.
-        if [ "${row[1]}" == "-" ]; then ln -srf "${target}" "${targetName}-${row[0]}.${targetExt}" # as-is
-        elif idx=$(printf "%02d" "${row[1]}"); then ln -srf "${target}" "${idx}. ${targetName}-${row[0]}.${targetExt}" # indexed basename
-        else ln -srf "${target}" "${row[1]}-${row[0]}.${targetExt}" # literal name
+        if [ "${row[1]}" == "-" ]; then
+            ln -srf "${target}" "${targetName}-${row[0]}.${targetExt}" # as-is
+        elif idx=$(printf "%02d" "${row[1]}" 2>/dev/null); then
+            ln -srf "${target}" "${idx}. ${targetName}-${row[0]}.${targetExt}" # indexed basename
+        else
+            ln -srf "${target}" "${row[1]}-${row[0]}.${targetExt}" # literal name
         fi
 
     fi
@@ -66,8 +70,9 @@ done
 # this must be done after pruning, because the old mtime is needed for that.
 sort -n -k1,1 -k2,2 -t$'\t' -o plex.tsv plex.tsv
 
-# sort .plexignore tree
+# sort plex and jellyfin ignore trees
 find -name .plexignore -exec sort -u -o {} {} \;
+find -name .ignore -exec sort -u -o {} {} \;
 
 # done
 rmEmblem __ $Sync

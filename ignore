@@ -3,7 +3,11 @@ source "$(dirname "${0}")/init.sh"
 
 for x in "${@}"; do
     plexignore="$(dirname "${x}")/.plexignore"
-    echo "$(toIgnore "${x}")" >> "${plexignore}"
+    echo "$(toPlexIgnore "${x}")" >> "${plexignore}"
     sort -u -o "${plexignore}" "${plexignore}"
+
+    jellyignore="$(dirname "${x}")/.ignore"
+    echo "$(toJellyIgnore "${x}")" >> "${jellyignore}"
+    sort -u -o "${jellyignore}" "${jellyignore}"
 done
 

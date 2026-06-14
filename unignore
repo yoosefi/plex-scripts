@@ -3,9 +3,24 @@ source "$(dirname "${0}")/init.sh"
 
 for x in "${@}"; do
     plexignore="$(dirname "${x}")/.plexignore"
-    [ -f "${plexignore}" ] || continue;
-    grep -Fxv "$(toIgnore "${x}")" "${plexignore}" > "${plexignore}~"
-    mv "${plexignore}~" "${plexignore}"
-    [ ! -s "${plexignore}" ] && rm "${plexignore}"
+    if [ -f "${plexignore}" ]; then
+        grep -Fxv "$(toPlexIgnore "${x}")" "${plexignore}" | sort -u > "${plexignore}~"
+        if [ -s "${plexignore}~" ]; then
+            mv "${plexignore}~" "${plexignore}"
+        else
+            rm "${plexignore}~" "${plexignore}"
+        fi
+    fi
+
+    jellyignore="$(dirname "${x}")/.ignore"
+    if [ -f "${jellyignore}" ]; then
+        grep -Fxv "$(toJellyIgnore "${x}")" "${jellyignore}" | sort -u > "${jellyignore}~"
+        # it's important to prevent an empty .ignore in jellyfin, which would exclude the whole dir.
+        if [ -s "${jellyignore}~" ]; then
+            mv "${jellyignore}~" "${jellyignore}"
+        else
+            rm "${jellyignore}~" "${jellyignore}"
+        fi
+    fi
 done
 

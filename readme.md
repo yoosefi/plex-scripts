@@ -16,6 +16,16 @@ To install, clone this repo in `~/.local/share/nemo/scripts`
 
     Also updates the `.plexignore` tree and **sorts** `plex.tsv`, so if you have it open make sure to reload it.
 
+    There is also `map/process-many`, to process multiple given directories at once.
+
+- **`map/hash`:** From the show's directory, scans the already-processed `__` directory and stashes the symlink name along with a sha256 hash of the linked file into an `.episodeHashes` file.
+
+    The `.episodeHashes` file doesn't do anything, really. It's just there for posterity and anonymized sharing.
+
+    There is also `map/hash-many`, to do this across multiple given show directories at once.
+
+    *You should ideally only be hashing while on the host machine; hashing files over a network is prohibitively slow.*
+
 - `help/condensed-episodes`: Generates ranged designators (`xx-Exx`) for mapping files containing multiple episodes.
 
     No files need to be selected to run this, but you will want to `map/append` the episodes to `plex.tsv` first.

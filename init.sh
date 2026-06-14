@@ -35,10 +35,19 @@ rmEmblem() {
     _setEmblems "${1}" "${a[@]}"
 }
 
-toIgnore() {
+pinToTop() {
+    gio set -t string "${1}" metadata::pinned-to-top true
+}
+
+toPlexIgnore() {
     # emulate python3 glob.escape()
     #                  [[] [?]
     pattern=$(sed 's/\(\[\|\?\)/[\1]/g' <<< "$(basename "${1}")")
     [ -d "${1}" ] && echo "${pattern}/*" || echo "${pattern}"
 }
 
+toJellyIgnore() {
+    # like .gitignore
+    pattern=$(basename "${1}")
+    [ -d "${1}" ] && echo "${pattern}/" || echo "${pattern}"
+}
