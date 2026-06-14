@@ -4,8 +4,8 @@
 hash="$(dirname "$(realpath "${0}")")/hash"
 for x in "${@}"; do
     if [ -d "${x}" ]; then
+        cd "${x}" || continue
         echo "${x}"
-        cd "${x}"
         $hash
         cd - > /dev/null
     fi

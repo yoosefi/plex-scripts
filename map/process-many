@@ -2,8 +2,8 @@
 process="$(dirname "$(realpath "${0}")")/process"
 for x in "${@}"; do
     if [ -d "${x}" ]; then
+        cd "${x}" || continue
         echo "${x}"
-        cd "${x}"
         $process
         cd - > /dev/null
     fi
