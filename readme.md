@@ -4,7 +4,9 @@ Helps you organize your files via symbolic links so Plex lists them correctly.
 
 Your files will not be renamed, moved, or modified in any way by these scripts.
 
-To install, clone this repo in `~/.local/share/nemo/scripts`
+To install, clone this repo in `~/.local/share/nemo/scripts`, or somewhere on your server.
+
+*Nemo is not required. `gio` emblems/pinning are silent/optional.*
 
 ## Scripts
 - **`map/append`:** From the show or movie's directory, select files/directories and run this to append videos and subtitles to `plex.tsv`
