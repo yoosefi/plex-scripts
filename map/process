@@ -82,7 +82,7 @@ find -name .plexignore -exec sort -u -o {} {} \;
 find -name .ignore -exec sort -u -o {} {} \;
 
 # done
-rmEmblem __ $Sync
+[ -d __ ] && rmEmblem __ $Sync
 rmEmblem plex.tsv $Sync
 
 # kill the old dir that confuses plex
