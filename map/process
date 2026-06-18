@@ -44,12 +44,18 @@ while IFS=$'\t' read -r -a row; do
         # so we have to symlink in the content root (the bloated "inline" way), which actually will sort alphabetically.
         # this is a known bug in plex that they have done nothing to resolve since the feature was added.
         if [ "${row[1]}" == "-" ]; then
-            ln -srf "${target}" "${targetName}-${row[0]}.${targetExt}" # as-is
+            extra="${targetName}-${row[0]}.${targetExt}" # as-is
         elif idx=$(printf "%02d" "${row[1]}" 2>/dev/null); then
-            ln -srf "${target}" "${idx}. ${targetName}-${row[0]}.${targetExt}" # indexed basename
+            extra="${idx}. ${targetName}-${row[0]}.${targetExt}" # indexed basename
         else
-            ln -srf "${target}" "${row[1]}-${row[0]}.${targetExt}" # literal name
+            extra="${row[1]}-${row[0]}.${targetExt}" # literal name
         fi
+
+        # jellyfin can't do extras?
+        echo "$(toJellyIgnore "${extra}")" >> .ignore
+
+        # symlink the extra in the movie's dir
+        ln -srf "${target}" "${extra}"
 
     fi
 
