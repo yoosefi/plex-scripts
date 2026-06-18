@@ -14,7 +14,9 @@ if $(confirm "Clear symlinks?"); then
     find __ -type l -exec rm {} \+
     for lma in behindthescenes deleted featurette interview scene short trailer other; do
         for level in . extras; do
-            find "${level}" -maxdepth 1 -type l -name "*-${lma}.*" -exec rm {} \+
+            if [ -d "${level}" ]; then
+                find "${level}" -maxdepth 1 -type l -name "*-${lma}.*" -exec rm {} \+
+            fi
         done
     done
 fi

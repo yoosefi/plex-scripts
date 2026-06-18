@@ -72,9 +72,11 @@ find __ -type l | while read each; do touch -h -r "$(realpath "${each}")" "${eac
 find __ -type d -empty -exec rm -r {} \+
 for lma in behindthescenes deleted featurette interview scene short trailer other; do
     for level in . extras; do
-        find "${level}" -maxdepth 1 -type l -name "*-${lma}.*" -not -newer plex.tsv -exec rm {} \+
-        # set mtime of symlinks to same as source files
-        find "${level}" -maxdepth 1 -type l -name "*-${lma}.*" | while read each; do touch -h -r "$(realpath "${each}")" "${each}"; done
+        if [ -d "${level}" ]; then
+            find "${level}" -maxdepth 1 -type l -name "*-${lma}.*" -not -newer plex.tsv -exec rm {} \+
+            # set mtime of symlinks to same as source files
+            find "${level}" -maxdepth 1 -type l -name "*-${lma}.*" | while read each; do touch -h -r "$(realpath "${each}")" "${each}"; done
+        fi
     done
 done
 
