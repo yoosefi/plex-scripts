@@ -1,7 +1,7 @@
 #!/bin/bash
 # this should ideally be run on the actual machine, and not a mount
 hash="$(dirname "$(realpath "${0}")")/hash"
-find -name plex.tsv -exec dirname {} \; | sort | while read each; do
+find . -name plex.tsv -exec dirname {} \; | sort | while read each; do
     cd "${each}" || continue
     echo "${each}"
     $hash
