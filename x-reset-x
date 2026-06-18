@@ -13,16 +13,18 @@ confirm(){ zenity --question --text="${1}" --width="$(( ${#1} * 10 ))"; }
 if $(confirm "Clear symlinks?"); then
     find __ -type l -exec rm {} \+
     for lma in behindthescenes deleted featurette interview scene short trailer other; do
-        find -maxdepth 1 -type l -name "*-${lma}.*" -exec rm {} \+
+        for level in . extras; do
+            find "${level}" -maxdepth 1 -type l -name "*-${lma}.*" -exec rm {} \+
+        done
     done
 fi
 
 if $(confirm "Clear the ignore tree?"); then
-    find -name .plexignore -exec rm {} \+
-    find -name .ignore -exec rm {} \+
+    find . -name .plexignore -exec rm {} \+
+    find . -name .ignore -exec rm {} \+
 fi
 
 if $(confirm "Clear emblems?"); then
-    find -type d | while read d; do _setEmblems "${d}" ""; done
+    find . -type d | while read d; do _setEmblems "${d}" ""; done
 fi
 

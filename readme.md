@@ -16,7 +16,7 @@ To install, clone this repo in `~/.local/share/nemo/scripts`, or somewhere on yo
 
 - **`map/process`:** From the show or movie's directory, reads `plex.tsv` and creates symlinks.
 
-    Also updates the `.plexignore` tree and **sorts** `plex.tsv`, so if you have it open make sure to reload it.
+    Also updates the ignore tree and **sorts** `plex.tsv`, so if you have it open make sure to reload it.
 
     There is also `map/process-all`, to process all subdirectories (deep) that contain a `plex.tsv`.
 
@@ -42,14 +42,14 @@ To install, clone this repo in `~/.local/share/nemo/scripts`, or somewhere on yo
 
 - `mark/*`: Adds emblems to folders.
 
-- `ignore`: Adds selected files/directories to the `.plexignore` tree.
+- `ignore`: Adds selected files/directories to the ignore tree.
 
-- `unignore`: Removes selected files/directories from the `.plexignore` tree.
+- `unignore`: Removes selected files/directories from the ignore tree.
 
-- `x-reset-x`: From the show's directory, clears the `.plexignore` tree and `__` symlinks (asks for confirmation)
+- `x-reset-x`: From the show's directory, clears the ignore tree and `__` symlinks (asks for confirmation)
 
 ## plex.tsv
-The TSV is an **unquoted** and **headless** map which defines what gets plex-ignored and symlinked.
+The TSV is an **unquoted** and **headless** map which defines what gets ignored and symlinked.
 
 1. The first column is the SEASON or ASSET designator, and MUST be either:
     - `#` to denote a comment-row (see section below)
@@ -81,7 +81,7 @@ The TSV is an **unquoted** and **headless** map which defines what gets plex-ign
         - For example: "01.en" becomes `E01.en`, which is English subtitles for `E01`
 
 3. The third column is the MEDIA PATH relative to the TSV's directory.
-    Files in this column are added to the `.plexignore` tree by the processor,
+    Files in this column are added to the ignore tree (`.plexignore` and Jellyfin's `.ignore`)
     regardless of whether they get symlinked.
 
     There MUST NOT be any columns after the third.
@@ -96,12 +96,12 @@ The TSV is an **unquoted** and **headless** map which defines what gets plex-ign
 ```
 
 ### Result
-`.plexignore`:
+`.plexignore` and `.ignore`:
 ```
 ignore-me.mp4
 ```
 
-`misc/.plexignore`:
+`misc/.plexignore` and `misc/.ignore`:
 ```
 unaired-pilot.mp4
 ```
@@ -112,9 +112,10 @@ S00/S00E01.mp4 -> ../../misc/unaired-pilot.mp4
 ```
 
 ### Explanation
-Even though `misc/unaired-pilot.mp4` is similarly ignored, the symlink isn't. Plex sees `__/S00/S00E01.mp4` as a video, and uses it.
+Even though `misc/unaired-pilot.mp4` is in the ignore tree, the symlink isn't.
+Plex and Jellyfin see `__/S00/S00E01.mp4` as a video, and use it.
 
-Thus, Plex can be organized without renaming or moving source files.
+Thus, Plex and Jellyfin can be organized without renaming or moving source files.
 
 ### Comment Rows
 Lines that begin with `#` are skipped entirely.
@@ -134,22 +135,34 @@ deleted	2	misc/Another Deleted Scene.mp4
 ```
 
 ### Result
-`misc/.plexignore`:
+```
+# Plex
+Official Trailer-trailer.mp4            -> misc/Official Trailer.mp4
+01. Deleted Scene-deleted.mp4           -> misc/Deleted Scene.mp4
+02. Another Deleted Scene-deleted.mp4   -> misc/Another Deleted Scene.mp4
+
+# Jellyfin
+extras/Official Trailer-trailer.mp4             -> misc/Official Trailer.mp4
+extras/01. Deleted Scene-deleted.mp4            -> misc/Deleted Scene.mp4
+extras/02. Another Deleted Scene-deleted.mp4    -> misc/Another Deleted Scene.mp4
+```
+
+`misc/.plexignore` and `misc/.ignore`:
 ```
 Official Trailer.mp4
 Deleted Scene.mp4
 Another Deleted Scene.mp4
 ```
 
-The movie's directory:
+`.ignore` and `extras/.plexignore` (Plex and Jellyfin ignore each other's extras):
 ```
-Official Trailer-trailer.mp4            -> misc/Official Trailer.mp4
-01. Deleted Scene-deleted.mp4           -> misc/Deleted Scene.mp4
-02. Another Deleted Scene-deleted.mp4   -> misc/Another Deleted Scene.mp4
+Official Trailer-trailer.mp4
+01. Deleted Scene-deleted.mp4
+02. Another Deleted Scene-deleted.mp4
 ```
 
 ### Caveats
-Unfortunately, the bloated "inline" way is the only way to control the sorting of movie extras.
+Unfortunately, the bloated "inline" way is the only way to control the sorting of movie extras for Plex.
 The inline extras have to exist on the same level as the movie; there's no way to have them work in the `__` directory.
 
 Also, there can't be *any* other videos in the movie file's directory except for the movie and the inline extras themselves, at all,
