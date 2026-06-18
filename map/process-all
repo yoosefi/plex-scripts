@@ -1,0 +1,9 @@
+#!/bin/bash
+process="$(dirname "$(realpath "${0}")")/process"
+find -name plex.tsv -exec dirname {} \; | sort | while read each; do
+    cd "${each}" || continue
+    echo "${each}"
+    $process
+    cd - > /dev/null
+done
+
