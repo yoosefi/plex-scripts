@@ -15,8 +15,8 @@ _setEmblems() {
     path="$(realpath -s "${1}")"
     [ -e "${path}" ] || return
     shift
-    gio set -nt unset "${path}" metadata::emblems
-    [ -n "${1}" ] && gio set -nt stringv "${path}" metadata::emblems "${@}"
+    gio set -nt unset "${path}" metadata::emblems 2>/dev/null
+    [ -n "${1}" ] && gio set -nt stringv "${path}" metadata::emblems "${@}" 2>/dev/null
     # poke inotify (refresh nemo) by touching without actually changing the mtime
     touch -r "${path}" "${path}"
 }
@@ -36,7 +36,7 @@ rmEmblem() {
 }
 
 pinToTop() {
-    gio set -t string "${1}" metadata::pinned-to-top true
+    gio set -t string "${1}" metadata::pinned-to-top true 2>/dev/null
 }
 
 toPlexIgnore() {
