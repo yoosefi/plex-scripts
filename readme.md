@@ -1,4 +1,4 @@
-# Bash/Nemo Scripts for Plex
+# Bash/Nemo Scripts for Plex and Jellyfin
 
 Helps you organize your files via symbolic links so Plex lists them correctly.
 
