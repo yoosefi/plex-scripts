@@ -61,6 +61,7 @@ done < plex.tsv
 # even if they're immediately re-linked. we only want plex to see real changes.
 # FIXME this has a race if plex.tsv has the same mtime as invocation. human lag should be enough.
 find __ -type l -not -newer plex.tsv -exec rm {} \+
+find __ -type l | while read each; do touch -h -r "$(realpath "${each}")" "${each}"; done # set mtime of symlinks to same as source files
 find __ -type d -empty -exec rm -r {} \+
 for lma in behindthescenes deleted featurette interview scene short trailer other; do
     find -maxdepth 1 -type l -name "*-${lma}.*" -not -newer plex.tsv -exec rm {} \+
