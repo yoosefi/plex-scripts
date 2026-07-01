@@ -11,7 +11,7 @@ find "${@}" -type f | sort | while read target; do
     ext="${target##*.}"
 
     # only use videos
-    [[ $(mimetype -b "${target}") == video/* ]] || \
+    [[ $(file --mime-type -b "${target}") == video/* ]] || \
         [[ "${ext}" == ass ]] || \
         [[ "${ext}" == smi ]] || \
         [[ "${ext}" == srt ]] || \
